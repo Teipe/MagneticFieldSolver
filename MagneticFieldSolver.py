@@ -4,7 +4,10 @@ from matplotlib.widgets import Slider
 import numpy as np
 import pandas as pd
 
-radius  = 4e-3   #4 mm
+# Note the magnetic field starts from the top of the probe. Meaning if you want the field 1 mm under the probe, z = height + 1
+
+radius  = 2e-3   #4 mm diameter
+# radius  = 5e-4   #1 mm diameter
 height  = 6e-3   #6 mm
 loops   = 5
 dz      = height/loops
@@ -15,14 +18,15 @@ current =   1
 pi = np.pi
 k = mu*current/4/pi
 
-startZ = 10e-3
-endZ = 10e-3
-numZ = 1
+startZ = 0e-3
+endZ = 70e-3
+numZ = 71
 zArr = np.linspace(startZ, endZ, num=numZ)
+# print(zArr)
 
 startr = 0
-endr = 20e-2
-numr = 1000
+endr = 4e-2
+numr = 100
 rArr = np.linspace(startr,  endr, num=numr)
 numTheta = 100
 theta1Arr = np.linspace(0, 2*pi, num=numTheta)
@@ -37,13 +41,14 @@ for z in zArr:
         Br = []
         for r in rArr:
             d = np.sqrt((r*np.cos(theta1)-radius*np.cos(theta0Arr))**2+(r*np.sin(theta1)-radius*np.sin(theta0Arr))**2)
-            Br.append(k*np.trapz((radius*np.sin(np.arctan(z/d)))/(np.sqrt(d**2+z**2)**2)))
+            z1 = z-dz*theta0Arr/2/pi 
+            Br.append(k*np.trapz((radius*np.sin(np.arctan(z1/d)))/(np.sqrt(d**2+z1**2)**2)))
         Bz.append(Br)
     B.append(Bz)
 
 B = np.array(B)
 df = pd.DataFrame(B.flatten(), columns=['B'])
-df.to_csv(f"magneticField_{startZ}-{endZ}-{numZ}_{startr}-{endr}-{numr}_{numTheta}.csv")
+df.to_csv(f"magneticFieldR{radius}_{startZ}-{endZ}-{numZ}_{startr}-{endr}-{numr}_{numTheta}.csv")
 # fig = plt.figure()
 # ax = fig.add_subplot(projection='3d')
 

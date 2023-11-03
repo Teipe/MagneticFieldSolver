@@ -10,3 +10,5 @@ TotalFieldThroughLoop.py calculates the sum of the magnetic field a loop with a 
 Features to be added:
 * Offset between coil and loop in the xy-plane
 * Calculate electromotive force (EMF) for a given current (I(t))
+* Some script to cross-correlate the measured vs. the theoretical signal
+* Some script to correct for V(t), as it is not constant for all measurment
