@@ -55,8 +55,9 @@ z = 6
 # sumOfField4 = dblquad(lambda r, theta: B4[z], )
 for j, r in enumerate(rArr):
     if r<=rLoop:
+        dA = ((r+dr)**2*2*np.pi-r**2*2*np.pi)/dtTheta
         for k, theta in enumerate(theta1Arr):
-            sumOfField4 += B4[z][j][k]*dr*dtTheta*2*(r+dr)
+            sumOfField4 += B4[z][j][k]*dA
 sumOfField4 = sumOfField4
 
 fig = plt.figure()
